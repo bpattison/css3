@@ -1,0 +1,104 @@
+<project name="css3" default="jar" xmlns:mvn="urn:maven-artifact-ant">
+
+  <description>
+  </description>
+
+  <property name="src" location="src"/>
+  <property name="build" location="classes"/>
+
+  <available property="hasclojure" file="${clojure.jar}"/>
+  <available property="hasclojure-contrib" file="${clojure-contrib.jar}"/>
+  <available property="hasFnParse" file="${FnParse.jar}"/>
+
+  <!-- The JAR file to create. -->
+  <property name="jarfile" location="css3.jar"/>
+
+  <!-- These make sense for building on tapestry.formos.com -->
+
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="clean" description="Remove generated files and directories.">
+    <delete file="${jarfile}"/>
+    <delete dir="${build}"/>
+  </target>
+
+  <target name="test_css3"
+          description="Run css3 tests"
+          if="hasclojure">
+    <java classname="clojure.main">
+      <classpath>
+        <path location="${build}"/>
+        <path location="${src}"/>
+        <path location="${clojure.jar}"/>
+        <path location="${clojure-contrib.jar}"/>
+        <path location="${FnParse.jar}"/>
+      </classpath>
+      <arg value="-e"/>
+      <arg value="(require '(parser.css3 [test-css3 :as main])) (main/run)"/>
+    </java>
+  </target>
+
+  <target name="test" depends="test_css3"
+          description="Run all tests"/>
+
+  <target name="check_hasclojure"
+          description="Print a warning message if clojure.jar is undefined"
+          unless="hasclojure">
+    <echo>WARNING: You have not defined a path to clojure.jar so I can't compile files.
+      This will cause some parts of parser.css3 not to work.
+      To enable compiling, run "ant -Dclojure.jar=&lt;...path to clojure.jar..&gt;"
+    </echo>
+  </target>
+
+  <target name="check_has_clojure-contrib"
+          description="Print a warning message if clojure-contrib.jar is undefined"
+          unless="hasclojure-contrib">
+    <echo>WARNING: You have not defined a path to clojure-contrib.jar so I can't compile files.
+      This will cause some parts of parser.css3 not to work.
+      To enable compiling, run "ant -Dclojure-contrib.jar=&lt;...path to clojure-contrib.jar..&gt;"
+    </echo>
+  </target>
+
+  <target name="check_FnParse"
+          description="Print a warning message if FnParse.jar is undefined"
+          unless="hasFnParse">
+    <echo>WARNING: You have not defined a path to FnParse.jar so I can't compile files.
+      This will cause some parts of parser.css3 not to work.
+      To enable compiling, run "ant -DFnParse.jar=&lt;...path to FnParse.jar..&gt;"
+    </echo>
+  </target>
+
+  <target name="compile_css3" depends="init,check_hasclojure,check_has_clojure-contrib,check_FnParse"
+          description="Compile CSS3 sources."
+          if="hasclojure">
+    <java classname="clojure.lang.Compile">
+      <classpath>
+        <path location="${build}"/>
+        <path location="${src}"/>
+        <path location="${clojure.jar}"/>
+        <path location="${clojure-contrib.jar}"/>
+        <path location="${FnParse.jar}"/>
+      </classpath>
+      <sysproperty key="clojure.compile.path" value="${build}"/>
+      <arg value="parser.css3"/>
+    </java>
+  </target>
+
+  <target name="jar" description="Create jar files." depends="compile_css3">
+    <jar jarfile="${jarfile}">
+      <fileset file="epl-v10.html"/>
+      <fileset dir="${src}" includes="**/*.clj"/>
+      <fileset dir="${build}" includes="**/*.class"/>
+      <manifest>
+        <attribute name="Class-Path" value="."/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="clean-build" depends="clean,compile_css3,test,jar"
+          description="Builds parser.css3 from scratch and runs all tests."/>
+
+</project>

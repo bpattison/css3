@@ -1,0 +1,27 @@
+css3 is css3 parser for Clojure developed using Joshua Choi's FnParser. This current version implements most, but not all of the CSS3 specification. A more complete version of CSS3 may developed if there's interest in the parser.
+
+css3 depends on FnParser, clojure-contrib, and clojure.
+
+css3's distribution has src and test folders. To use css3, download this
+distribution and make sure you have the following on your class path.
+
+  java -cp $CLOJURE_PATH:clojure-contrib.jar:FnParse.jar:css3.jar
+
+css3's namespace is 'parser.css3'
+
+css3's unit tests are stored in the tests folder.
+
+"make.sh" is an example script to run ant to build "css3.jar". The paths to clojure, clojure-contrib, and FnParse will have to be updated accordingly.
+
+For documentation, go to: http://github.com/bpattison/fnparse/wikis
+
+;; css3
+;;
+;; Copyright (c) 2009 Brian Pattison. All rights reserved.
+;; The use and distribution terms for this software are covered by the
+;; Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
+;; which can be found in the file epl-v10.html at the root of this distribution.
+;; By using this software in any fashion, you are agreeing to be bound by
+;; the terms of this license.
+;;
+;; You must not remove this notice, or any other, from this software.

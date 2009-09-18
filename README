@@ -1,4 +1,4 @@
-css3 is css3 parser for Clojure developed using Joshua Choi's FnParser. This current version implements most, but not all of the CSS3 specification. A more complete version of CSS3 may developed if there's interest in the parser.
+css3 is css3 parser for Clojure developed using Joshua Choi's FnParse. This current version implements most, but not all of the CSS3 specification. A more complete version of CSS3 may developed if there's interest in the parser.
 
 css3 depends on FnParser, clojure-contrib, and clojure.
 
@@ -11,7 +11,7 @@ css3's namespace is 'parser.css3'
 
 css3's unit tests are stored in the tests folder.
 
-"make.sh" is an example script to run ant to build "css3.jar". The paths to clojure, clojure-contrib, and FnParse will have to be updated accordingly.
+"make.sh" is an example script to run ant to build "css3.jar". The paths to clojure, clojure-contrib, and FnParse will have to be updated to your development environment.
 
 For documentation, go to: http://github.com/bpattison/fnparse/wikis
 
